@@ -15,6 +15,8 @@ RUN yarn --pure-lockfile
 COPY . .
 COPY ./src ./src
 
+RUN yarn build
+
 # Use the port used by our server.ts configuration
 EXPOSE 8080
-CMD [ "yarn", "start:dev" ]
+CMD [ "node", "./dist/server.js" ]

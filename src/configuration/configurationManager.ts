@@ -3,7 +3,7 @@ export interface IConfigurationManager {
 }
 
 export class ConfigurationManager<T> implements IConfigurationManager {
-  private configuration: {[key:string]: string} = {}
+  protected configuration: {[key:string]: string} = {}
   /**
    *
    */
