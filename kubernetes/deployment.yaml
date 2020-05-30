@@ -7,7 +7,7 @@ metadata:
 spec:
   clusterIP: None
   ports:
-    - port: 9000
+    - port: 5000
       name: qc-api
   selector:
     app: qc-api
@@ -33,4 +33,4 @@ spec:
           image: qc-api
           ports:
             - name: http
-              containerPort: 9000
+              containerPort: 5001
