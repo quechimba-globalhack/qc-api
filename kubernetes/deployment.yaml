@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: qc-api
+  labels:
+    app: qc-api
+spec:
+  clusterIP: None
+  ports:
+    - port: 9000
+      name: qc-api
+  selector:
+    app: qc-api
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: qc-api
+  labels:
+    app: qc-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: qc-api
+  template:
+    metadata:
+      labels:
+        app: qc-api
+    spec:
+      containers:
+        - name: qc-api
+          image: qc-api
+          ports:
+            - name: http
+              containerPort: 9000
