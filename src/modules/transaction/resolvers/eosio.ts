@@ -1,6 +1,9 @@
-import { JsonRpc } from "eosjs";
+import { JsonRpc, Api } from "eosjs";
 import { ObjectType, Field, ID, ArgsType, InputType } from "type-graphql";
+import { hexToUint8Array, arrayToHex } from "eosjs/dist/eosjs-serialize";
 const fetch = require("node-fetch");
+const { JsSignatureProvider } = require("eosjs/dist/eosjs-jssig");
+const { TextEncoder, TextDecoder } = require("util");
 
 // Move this file to a folder that actually make sence like /services
 @ObjectType()
@@ -30,19 +33,25 @@ export class EosioTransactionData {
 
 export class EosioService {
   private rpc: JsonRpc;
+  private api: Api;
   async sendTransaction(
     data: EosioTransactionData
   ): Promise<RpcProcessedResponse> {
     try {
-      // const { processed } = await this.rpc.push_transaction({
-      //   signatures: [data.signature],
-      //   serializedTransaction: data.hexData,
-      // });
+      const debugOnlyTransaction = this.api.deserializeTransactionWithActions(
+        data.hexData
+      );
+      console.debug('[[ACTION-DATA]]', debugOnlyTransaction);
+
+      const { processed } = await this.rpc.push_transaction({
+        signatures: [data.signature],
+        serializedTransaction: hexToUint8Array(data.hexData),
+      });
 
       return {
-        hash: '', // processed.id,
-        blockNumber: 1, // processed.block_number,
-        timestamp: new Date(), //processed.block_time),
+        hash: processed.id,
+        blockNumber: processed.block_number,
+        timestamp: new Date(processed.block_time),
         error: null,
       };
     } catch {
@@ -51,5 +60,11 @@ export class EosioService {
   }
   constructor(url: string) {
     this.rpc = new JsonRpc(url, { fetch });
+    this.api = new Api({
+      rpc: this.rpc,
+      signatureProvider: new JsSignatureProvider([]),
+      textDecoder: new TextDecoder(),
+      textEncoder: new TextEncoder(),
+    });
   }
 }
