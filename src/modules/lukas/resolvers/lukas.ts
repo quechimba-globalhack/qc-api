@@ -1,4 +1,4 @@
-import { Query, Arg, Resolver } from "type-graphql";
+import { Query, Arg, Resolver, Float } from "type-graphql";
 import { Lukas } from "../domain/lukas";
 import { JsonRpc } from "eosjs";
 const fetch = require("node-fetch");
@@ -13,10 +13,18 @@ export class LukasResolver {
       user,
       "LKS"
     );
-    let balance = balanceResult.length ? balanceResult[0] : null;
+    let balance = balanceResult.length
+      ? LukasResolver.parseBalance(balanceResult[0])
+      : null;
 
     return {
       balance,
     };
+  }
+
+  public static parseBalance(balanceString: string): number | null {
+    if (!balanceString.length) return null;
+    const numberStr = balanceString.split(" ")[0];
+    return Number(numberStr);
   }
 }

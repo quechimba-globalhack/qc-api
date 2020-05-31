@@ -9,10 +9,10 @@ type Auction {
   created_at: DateTime!
   duration: Float!
   exp_id: Float!
-  highest_bid: Float!
+  highest_bid: Float
   req_cancel: Float!
   start_date: DateTime!
-  start_value: String!
+  start_value: Float
 }
 
 """
@@ -34,20 +34,20 @@ input EosioTransactionData {
 
 type Experience {
   actn: Auction
-  base_val: String!
+  base_val: Float
   bkn_id: String!
   content: String!
   engagement: Float!
   exp_id: Float!
   maxactntdate: DateTime!
   places: Float!
-  pub_price: Float!
+  pub_price: Float
   sealed: Float!
   start_date: String!
 }
 
 type Lukas {
-  balance: String
+  balance: Float
 }
 
 type Mutation {

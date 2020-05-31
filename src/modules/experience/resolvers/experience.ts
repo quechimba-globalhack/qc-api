@@ -10,6 +10,7 @@ import {
 } from "type-graphql";
 import { JsonRpc } from "eosjs";
 import { Experience } from "../domain/experience";
+import { LukasResolver } from "../../lukas/resolvers/lukas";
 const fetch = require("node-fetch");
 
 @Resolver(Experience)
@@ -48,7 +49,6 @@ export class ExperienceResolver {
       show_payer: false, // Optional: Show ram payer
     });
 
-    console.debug("actn", actnResult);
     if (actnResult.rows.length) {
       const actn = actnResult.rows[0];
 
@@ -59,7 +59,9 @@ export class ExperienceResolver {
             ...actn,
             ...{
               start_date: new Date(actn.start_date),
-              created_at: new Date(actn.created_at)
+              created_at: new Date(actn.created_at),
+              start_value: LukasResolver.parseBalance(actn.start_value),
+              highest_bid: LukasResolver.parseBalance(actn.highest_bid),
             },
           },
         },
@@ -71,13 +73,13 @@ export class ExperienceResolver {
       };
     }
 
-    console.debug(exp);
-
     return {
       ...exp,
       ...{
         start_date: new Date(exp.start_date),
         maxactntdate: new Date(exp.maxactntdate),
+        pub_price: LukasResolver.parseBalance(exp.pub_price),
+        base_val: LukasResolver.parseBalance(exp.base_val),
       },
     };
   }

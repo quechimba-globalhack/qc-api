@@ -1,7 +1,7 @@
-import { ObjectType, Field } from "type-graphql";
+import { ObjectType, Field, Float } from "type-graphql";
 
 @ObjectType()
 export class Lukas {
-  @Field({ nullable: true })
-  balance: string;
+  @Field((type) => Float, { nullable: true })
+  balance: number | null;
 }
