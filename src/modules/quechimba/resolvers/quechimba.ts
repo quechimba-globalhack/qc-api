@@ -25,19 +25,6 @@ export class QueChimbaResolver {
     @Arg("count", (type) => Int) count: number
   ): Promise<QueChimba[]> {
 
-    const rpc = new JsonRpc('http://127.0.0.1:8888', { fetch });
-
-    const rows = await rpc.get_table_rows({
-      json: true,               // Get the response as json
-      code: 'qccontract',      // Contract that we target
-      scope: 'qccontract',         // Account that owns the data
-      table: 'actn',        // Table name
-      limit: 10,                // Maximum number of rows that we want to get
-      lower_bound: 0,
-      reverse: false,           // Optional: Get reversed data
-      show_payer: false          // Optional: Show ram payer
-    })
-    console.debug(rows);
     const result: Array<QueChimba> = [];
     for (let i = 0; i < count; i++) {
       result.push({ quechimba: `Que chimba de app ${i}` });
