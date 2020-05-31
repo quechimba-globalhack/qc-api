@@ -6,6 +6,7 @@
 type Auction {
   actn_id: Float!
   bkn: String!
+  counter: Float!
   created_at: DateTime!
   duration: Float!
   exp_id: Float!

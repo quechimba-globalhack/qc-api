@@ -30,6 +30,8 @@ export class Auction {
   req_cancel: number;
   @Field()
   created_at: Date;
+  @Field()
+  counter: number;
 }
 
 @ObjectType()
