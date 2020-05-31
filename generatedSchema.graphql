@@ -8,22 +8,33 @@ The javascript `Date` as string. Type represents date and time as the ISO Date s
 """
 scalar DateTime
 
+type EosioError {
+  code: String!
+  message: String!
+  name: String!
+}
+
 input EosioTransactionData {
   hexData: String!
   name: ID!
-  signature: String!
+  signatures: [String!]!
 }
 
 type Mutation {
   sendTransaction(data: EosioTransactionData!, user: String!): RpcProcessedResponse!
 }
 
-type Query {
+type QueChimba {
   quechimba: String!
 }
 
+type Query {
+  queChimba(count: Int!): [QueChimba!]!
+}
+
 type RpcProcessedResponse {
-  blockNumber: Float!
+  blockNumber: Float
+  error: EosioError
   hash: String!
   timestamp: DateTime!
 }

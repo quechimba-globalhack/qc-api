@@ -11,7 +11,7 @@
     "start": "node 'dist/server.js'",
     "build": "tsc -p tsconfig.json",
     "start:dev": "yarn run build:dev",
-    "build:dev": "nodemon 'src/server.ts' --exec 'ts-node' src/server.ts -e ts,graphql"
+    "build:dev": "nodemon --ignore 'generatedSchema.graphql' 'src/server.ts' --exec 'ts-node' src/server.ts -e ts,graphql "
   },
   "devDependencies": {
     "@types/compression": "^1.7.0",

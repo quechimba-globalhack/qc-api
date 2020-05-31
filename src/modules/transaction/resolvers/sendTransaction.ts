@@ -12,28 +12,23 @@ const config = createEosioConfiguration();
 export class SendTransactionResolver {
   private eosioService: EosioService = new EosioService(config.get("url"));
 
-  @Query((type) => String)
-  async quechimba(): Promise<string> {
-    return "Que chimba de app!!";
-  }
   @Mutation((returns) => RpcProcessedResponse)
   async sendTransaction(
     @Arg("data") data: EosioTransactionData,
     @Arg("user") user: string
   ): Promise<RpcProcessedResponse> {
     try {
-      // if (user.length === 0) {
-      //   throw new Error("User is required to sign the transaction");
-      // }
+      if (user.length === 0) {
+        throw new Error("User is required to sign the transaction");
+      }
       // if (this.validate(data)) {
       //   throw new Error("validation error");
       // }
 
       // use cases can only be executed with transactions
-      // return this.eosioService.sendTransaction(data);
-      throw "";
-    } catch {
-      throw new Error("transaction error");
+      return this.eosioService.sendTransaction(data);
+    } catch (err) {
+      throw err;
     }
   }
 
