@@ -67,8 +67,9 @@ export class EosioService {
         timestamp: new Date(processed.block_time),
         error: processed.error,
       };
-    } catch {
-      throw new Error("Method not implemented.");
+    } catch (err) {
+      console.error(err);
+      throw new Error("Error deserializing transaction.");
     }
   }
   constructor(url: string) {
