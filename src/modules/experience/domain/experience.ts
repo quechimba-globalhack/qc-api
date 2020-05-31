@@ -7,6 +7,7 @@ import {
   ObjectType,
   Field,
   Int,
+  Float,
 } from "type-graphql";
 
 @ObjectType()
@@ -19,9 +20,9 @@ export class Auction {
   start_date: Date;
   @Field()
   duration: number;
-  @Field()
-  start_value: string;
-  @Field()
+  @Field((type) => Float, { nullable: true })
+  start_value: number;
+  @Field((type) => Float, { nullable: true })
   highest_bid: number;
   @Field()
   bkn: string;
@@ -43,13 +44,13 @@ export class Experience {
   start_date: string;
   @Field()
   places: number;
-  @Field()
-  base_val: string;
+  @Field((type) => Float, { nullable: true })
+  base_val: number;
   @Field()
   maxactntdate: Date;
   @Field()
   engagement: number;
-  @Field()
+  @Field((type) => Float, { nullable: true })
   pub_price: number;
   @Field()
   sealed: number;
