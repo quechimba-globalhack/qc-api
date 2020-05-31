@@ -3,6 +3,18 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
+type Auction {
+  actn_id: Float!
+  bkn: String!
+  created_at: DateTime!
+  duration: Float!
+  exp_id: Float!
+  highest_bid: Float!
+  req_cancel: Float!
+  start_date: DateTime!
+  start_value: String!
+}
+
 """
 The javascript `Date` as string. Type represents date and time as the ISO Date string.
 """
@@ -20,6 +32,20 @@ input EosioTransactionData {
   signatures: [String!]!
 }
 
+type Experience {
+  actn: Auction!
+  base_val: String!
+  bkn_id: String!
+  content: String!
+  engagement: Float!
+  exp_id: Float!
+  maxactntdate: DateTime!
+  places: Float!
+  pub_price: Float!
+  sealed: Float!
+  start_date: String!
+}
+
 type Mutation {
   sendTransaction(data: EosioTransactionData!, user: String!): RpcProcessedResponse!
 }
@@ -29,6 +55,7 @@ type QueChimba {
 }
 
 type Query {
+  getExperience(expid: Int!): Experience!
   queChimba(count: Int!): [QueChimba!]!
 }
 
