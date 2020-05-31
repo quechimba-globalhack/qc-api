@@ -53,6 +53,6 @@ export class Experience {
   pub_price: number;
   @Field()
   sealed: number;
-  @Field((type) => Auction)
+  @Field((type) => Auction, { nullable: true })
   actn: Auction;
 }

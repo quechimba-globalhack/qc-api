@@ -33,7 +33,7 @@ input EosioTransactionData {
 }
 
 type Experience {
-  actn: Auction!
+  actn: Auction
   base_val: String!
   bkn_id: String!
   content: String!
@@ -46,6 +46,10 @@ type Experience {
   start_date: String!
 }
 
+type Lukas {
+  balance: String
+}
+
 type Mutation {
   sendTransaction(data: EosioTransactionData!, user: String!): RpcProcessedResponse!
 }
@@ -55,6 +59,7 @@ type QueChimba {
 }
 
 type Query {
+  getBalace(user: String!): Lukas!
   getExperience(expid: Int!): Experience!
   queChimba(count: Int!): [QueChimba!]!
 }
