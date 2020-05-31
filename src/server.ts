@@ -22,10 +22,10 @@ const startServer = async () => {
   server.applyMiddleware({ app, path: "/graphql" });
   const httpServer = createServer(app);
   httpServer.listen({ port: 5000 }, (): void =>
-    console.log(`\n🚀   GraphQL is now running on http://localhost:👆🏾/graphql`)
+    console.log(`\n🚀🤭🤭🤭   GraphQL is now running on http://localhost:👆🏾/graphql`)
   );
 };
 
 startServer()
-  .then(() => console.log("Server initialized"))
+  .then(() => console.log("🤭 Server initialized 🤭"))
   .catch((err) => console.error("💩 Server crashed", err));
