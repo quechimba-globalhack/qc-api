@@ -69,7 +69,7 @@ export class EosioService {
       };
     } catch (err) {
       console.error(err);
-      throw new Error("Error deserializing transaction.");
+      throw new Error(err);
     }
   }
   constructor(url: string) {
