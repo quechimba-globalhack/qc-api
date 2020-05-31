@@ -42,9 +42,10 @@ export class ExperienceResolver {
       code: "qccontract", // Contract that we target
       scope: "qccontract", // Account that owns the data
       table: "actn", // Table name
-      table_key: "byexp",
+      key_type: "i64",
+      index_position: 2,
       limit: 1, // Maximum number of rows that we want to get
-      lower_bound: exp.exp_id,
+      lower_bound: expid,
       reverse: false, // Optional: Get reversed data
       show_payer: false, // Optional: Show ram payer
     });
