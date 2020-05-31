@@ -5,16 +5,26 @@ const fetch = require("node-fetch");
 const { JsSignatureProvider } = require("eosjs/dist/eosjs-jssig");
 const { TextEncoder, TextDecoder } = require("util");
 
+@ObjectType()
+export class EosioError {
+  @Field()
+  code: string;
+  @Field()
+  name: string;
+  @Field()
+  message: string;
+}
 // Move this file to a folder that actually make sence like /services
 @ObjectType()
 export class RpcProcessedResponse {
   @Field()
   hash: string;
-  @Field()
+  @Field({ nullable: true })
   blockNumber: number;
   @Field()
   timestamp: Date;
-  error: Error | null;
+  @Field({ nullable: true })
+  error: EosioError;
 }
 export class EosioAuthData {
   author: string;
@@ -25,8 +35,8 @@ export class EosioAuthData {
 export class EosioTransactionData {
   @Field((type) => ID)
   name: string;
-  @Field()
-  signature: string;
+  @Field((type) => [String])
+  signatures: string[];
   @Field()
   hexData: string;
 }
@@ -38,21 +48,24 @@ export class EosioService {
     data: EosioTransactionData
   ): Promise<RpcProcessedResponse> {
     try {
-      const debugOnlyTransaction = this.api.deserializeTransactionWithActions(
+      const debugOnlyTransaction = await this.api.deserializeTransactionWithActions(
         data.hexData
       );
-      console.debug('[[ACTION-DATA]]', debugOnlyTransaction);
+      console.debug("[[DATA]]", debugOnlyTransaction);
 
       const { processed } = await this.rpc.push_transaction({
-        signatures: [data.signature],
+        signatures: data.signatures,
         serializedTransaction: hexToUint8Array(data.hexData),
       });
+      console.debug(processed);
+      console.debug(processed.action_traces[0].receipt);
+      console.debug(processed.action_traces[0].act);
 
       return {
         hash: processed.id,
         blockNumber: processed.block_number,
         timestamp: new Date(processed.block_time),
-        error: null,
+        error: processed.error,
       };
     } catch {
       throw new Error("Method not implemented.");
